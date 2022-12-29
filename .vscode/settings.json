@@ -4,6 +4,7 @@
         "*.md": "mdx",
         "index.h": "c",
         "time.h": "c",
-        "limits.h": "c"
+        "limits.h": "c",
+        "omp.h": "c"
     }
 }
