@@ -102,7 +102,6 @@ void scalarProduct(int * x, int * y, int * result) {
         int local_result = 0;
         for (int i = start; i < end; i++)
         {
-            printf("Oi\n");
             local_result += x[i] * y[i];
         }
 
