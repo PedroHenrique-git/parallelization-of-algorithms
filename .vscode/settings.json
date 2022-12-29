@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.ejs": "html",
+        "*.md": "mdx",
+        "index.h": "c"
+    }
+}
