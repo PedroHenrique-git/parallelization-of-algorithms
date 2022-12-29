@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include<time.h>
 #include "../utils/index.h"
-#define NUMBER_OF_ELEMENTS 1000
+#define NUMBER_OF_ELEMENTS 10000
 
 int scalarProduct(int *, int *);
 
@@ -31,13 +31,13 @@ int main(void) {
     }
     printf(") \n\n");
 
-    int scalarProductResult = scalarProduct(x,y);
-
     clock_t start = clock();
+    int scalarProductResult = scalarProduct(x,y);
+    clock_t end = clock();
+
 
     printf("Result of scalar product of vectors(serial): %d\n", scalarProductResult);
 
-    clock_t end = clock();
 
     double totalTime = (double) (end - start) / CLOCKS_PER_SEC;
 
