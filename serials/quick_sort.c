@@ -2,7 +2,9 @@
 #include<stdlib.h>
 #include<time.h>
 #include "../utils/index.h" 
-#define MAX 1000
+#define MAX 400000 
+
+// 100000 200000 400000
 
 void trocar(int vet[], int i, int j) {
     int aux = vet[i];
@@ -39,7 +41,9 @@ void quickSort(int vet[], int n) {
 int main (void) {
     srand((unsigned) time(NULL));
 
-    int vet[MAX] = { 0 };
+    int * vet = (int *)malloc(sizeof(int) * MAX);
+
+    clearVector(vet, MAX);
 
     fillVector(vet, MAX, 1);
 
@@ -47,11 +51,21 @@ int main (void) {
 
     showVector(vet, MAX);
 
+    clock_t start = clock();
+
     quickSort(vet, MAX);
 
-    printf("\n\AFTER QUICKSORT\n\n");
+    clock_t end = clock();
+
+    double totalTime = (double)(end - start) / CLOCKS_PER_SEC;
+
+    printf("\n\nAFTER QUICKSORT\n\n");
 
     showVector(vet, MAX);
+
+    printf("\n\nEXECUTION TIME: %f seconds\n", totalTime);
+
+    free(vet);
 
     return 0;
 }
