@@ -9,9 +9,10 @@
 
 #endif
 
-#define NUMBER_OF_ELEMENTS 4
+#define NUMBER_OF_ELEMENTS 800000
+#define NUMBER_OF_THREADS  4
 
-void scalarProduct(int *, int *, int *);
+void scalarProduct(int *, int *, long long int *);
 
 int main(void) {
     srand((unsigned) time(NULL));
@@ -24,14 +25,18 @@ int main(void) {
         int numberOfThreads = omp_get_num_procs();
 
         if(NUMBER_OF_ELEMENTS < numberOfThreads)
-            threadCount = NUMBER_OF_ELEMENTS;
+            omp_set_num_threads(NUMBER_OF_ELEMENTS);
         else
-            threadCount = numberOfThreads;
+            omp_set_num_threads(threadCount = NUMBER_OF_THREADS);
     #else
         threadCount = 1;
     #endif
+ 
+    long long int result = 0; 
 
-    int result = 0; 
+    printf("\nNumber of elements %d \n", NUMBER_OF_ELEMENTS);
+    printf("\nNumber of threads %d \n", NUMBER_OF_THREADS);
+
 
     fillVector(x, NUMBER_OF_ELEMENTS, 1);
     fillVector(y, NUMBER_OF_ELEMENTS, 1);
@@ -71,7 +76,7 @@ int main(void) {
         printf("\nTempo de execucao: %.06lf\n", (double) (end - start) / CLOCKS_PER_SEC);
     #endif
 
-    printf("Result of scalar product of vectors(openmp): %d", result);
+    printf("Result of scalar product of vectors(openmp): %lld", result);
 
     free(x);
     free(y);
@@ -79,7 +84,7 @@ int main(void) {
     return 0;
 }
 
-void scalarProduct(int * x, int * y, int * result) {
+void scalarProduct(int * x, int * y, long long int * result) {
     #ifdef _OPENMP
         int rank = omp_get_thread_num();
         int threadCount = omp_get_num_threads();
@@ -87,7 +92,6 @@ void scalarProduct(int * x, int * y, int * result) {
         int load = NUMBER_OF_ELEMENTS/threadCount;
         int start = rank * load;
         int end = (rank + 1) * load;   
-
     #else
         int rank = 0;
         int threadCount = 1;
@@ -98,8 +102,7 @@ void scalarProduct(int * x, int * y, int * result) {
     #endif
 
     #ifdef _OPENMP
-
-        int local_result = 0;
+        long long int local_result = 0;
         for (int i = start; i < end; i++)
         {
             local_result += x[i] * y[i];
@@ -109,15 +112,12 @@ void scalarProduct(int * x, int * y, int * result) {
         {
             *result += local_result;
         }
-
     #else
-
-        int local_result = 0;
+        long long int local_result = 0;
         for (int i = 0; i < NUMBER_OF_ELEMENTS; i++){
             local_result += x[i] * y[i];
         }
 
         *result = local_result;
-
     #endif
 }
