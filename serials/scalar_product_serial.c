@@ -2,9 +2,9 @@
 #include<stdlib.h>
 #include<time.h>
 #include "../utils/index.h"
-#define NUMBER_OF_ELEMENTS 10000
+#define NUMBER_OF_ELEMENTS 800000
 
-int scalarProduct(int *, int *);
+long long int scalarProduct(int *, int *);
 
 int main(void) {
     srand((unsigned) time(NULL));
@@ -14,6 +14,8 @@ int main(void) {
 
     fillVector(x, NUMBER_OF_ELEMENTS, 1);
     fillVector(y, NUMBER_OF_ELEMENTS, 1);
+
+    printf("\nNumber of elements: %d\n", NUMBER_OF_ELEMENTS);
 
     printf("Vector 1\n\n");
     printf("( ");
@@ -32,11 +34,11 @@ int main(void) {
     printf(") \n\n");
 
     clock_t start = clock();
-    int scalarProductResult = scalarProduct(x,y);
+    long long int scalarProductResult = scalarProduct(x,y);
     clock_t end = clock();
 
 
-    printf("Result of scalar product of vectors(serial): %d\n", scalarProductResult);
+    printf("Result of scalar product of vectors(serial): %lld\n", scalarProductResult);
 
 
     double totalTime = (double) (end - start) / CLOCKS_PER_SEC;
@@ -49,8 +51,8 @@ int main(void) {
     return 0;
 }
 
-int scalarProduct(int * x, int * y) {
-    long int result = 0;
+long long int scalarProduct(int * x, int * y) {
+    long long int result = 0;
 
     for (int i = 0; i < NUMBER_OF_ELEMENTS; i++)
     {
